@@ -18,6 +18,12 @@ public class OddsController {
     @Autowired
     private OddsMapper oddsMapper;
 
+    @GetMapping("/")
+    @ResponseBody
+    public String index() {
+        return "Success";
+    }
+
     @GetMapping("/odds/{p1}/{p2}/{p3}/{p4}")
     @ResponseBody
     public List<PlayerOdds> getOdds(@PathVariable("p1") String p1,
