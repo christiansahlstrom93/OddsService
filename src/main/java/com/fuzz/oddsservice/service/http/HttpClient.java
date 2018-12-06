@@ -13,14 +13,12 @@ public class HttpClient {
     public String getStats() {
         final DefaultHttpClient httpClient = new DefaultHttpClient();
         try {
-            //Define a HttpGet request; You can choose between HttpPost, HttpDelete or HttpPut also.
-            //Choice depends on type of method you will be invoking.
-            final HttpGet getRequest = new HttpGet("http://fuzzstorage.scripter.tv/stats");
-
+            final HttpGet getRequest = new HttpGet("http://fuzzstorage.scripter.tv/stats?limit=1000");
             getRequest.addHeader("accept", "application/json");
 
             final HttpResponse response = httpClient.execute(getRequest);
             final int statusCode = response.getStatusLine().getStatusCode();
+
             if (statusCode != 200) {
                 throw new RuntimeException("Failed with HTTP error code : " + statusCode);
             }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ public class OddsMapper {
                                     final String p3,
                                     final String p4) throws IOException {
         final List<PlayerStats> stats = filterStats(entityHelper.mapPlayerStats(statsVo), p1, p2, p3, p4);
+        stats.sort(Comparator.comparing(PlayerStats::getAverageDiff).reversed());
         return getOdds(getCommonGames(stats));
     }
 

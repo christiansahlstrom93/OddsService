@@ -10,5 +10,5 @@ public class PlayerOdds {
     private String name;
     private float odds;
     @JsonIgnore
-    private int totalPoints;
+    private float totalPoints;
 }
