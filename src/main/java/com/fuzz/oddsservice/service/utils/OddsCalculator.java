@@ -38,7 +38,7 @@ public class OddsCalculator {
          float multiple = 1.8F;
         for (PlayerOdds odd : odds) {
             odd.setTotalPoints(odd.getTotalPoints() * multiple);
-            multiple -= 0.3;
+            multiple -= 0.2;
             if (multiple < 1) {
                 multiple = 1;
             }
@@ -51,21 +51,21 @@ public class OddsCalculator {
             return 1;
         } else if (percentage > 80) {
             return 1.2F;
-        } else if (percentage > 60) {
-            return 1.5F;
         } else if (percentage > 40) {
-            return 1.8F;
-        } else if (percentage > 20) {
-            return 2.8F;
+            return 1.5F;
         } else if (percentage > 0) {
-            return 3.3F;
-        } else if (percentage > -20) {
-            return 4F;
-        } else if (percentage > -40) {
-            return 5.5F;
+            return 1.8F;
+        } else if (percentage > -30) {
+            return 2.8F;
         } else if (percentage > -60) {
+            return 3.3F;
+        } else if (percentage > -90) {
+            return 4F;
+        } else if (percentage > -110) {
+            return 5.5F;
+        } else if (percentage > -140) {
             return 7.5F;
-        } else if (percentage > -80) {
+        } else if (percentage > -180) {
             return 8F;
         }
         return MAX_ODDS;

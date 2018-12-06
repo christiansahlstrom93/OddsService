@@ -10,10 +10,10 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 
 public class HttpClient {
-    public String getStats() {
+    public String getStats(final int limit) {
         final DefaultHttpClient httpClient = new DefaultHttpClient();
         try {
-            final HttpGet getRequest = new HttpGet("http://fuzzstorage.scripter.tv/stats?limit=1000");
+            final HttpGet getRequest = new HttpGet("http://fuzzstorage.scripter.tv/stats?limit=" + limit);
             getRequest.addHeader("accept", "application/json");
 
             final HttpResponse response = httpClient.execute(getRequest);
