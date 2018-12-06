@@ -48,13 +48,13 @@ public class OddsCalculator {
     private float getOdds(final float diff, final List<PlayerOdds> odds) {
         final float percentage = getPercentage(diff, getMedian(odds));
         if (percentage > 100) {
-            return 1;
-        } else if (percentage > 80) {
             return 1.2F;
-        } else if (percentage > 40) {
+        } else if (percentage > 80) {
             return 1.5F;
-        } else if (percentage > 0) {
+        } else if (percentage > 40) {
             return 1.8F;
+        } else if (percentage > 0) {
+            return 2F;
         } else if (percentage > -30) {
             return 2.8F;
         } else if (percentage > -60) {
