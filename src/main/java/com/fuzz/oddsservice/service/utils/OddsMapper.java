@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -22,14 +23,19 @@ public class OddsMapper {
     @Autowired
     private OddsCalculator oddsCalculator;
 
-    public List<PlayerOdds> getOdds(final String statsVo,
-                                    final String p1,
-                                    final String p2,
-                                    final String p3,
-                                    final String p4) throws IOException {
+    public Map<String, Float> getOdds(final String statsVo,
+                                      final String p1,
+                                      final String p2,
+                                      final String p3,
+                                      final String p4) throws IOException {
         final List<PlayerStats> stats = filterStats(entityHelper.mapPlayerStats(statsVo), p1, p2, p3, p4);
         stats.sort(Comparator.comparing(PlayerStats::getAverageDiff).reversed());
-        return getOdds(getCommonGames(stats));
+        return convertToMap(getOdds(getCommonGames(stats)));
+    }
+
+    private Map<String, Float> convertToMap(final List<PlayerOdds> odds){
+       return odds.stream()
+               .collect(Collectors.toMap(PlayerOdds::getName, PlayerOdds::getOdds));
     }
 
     private List<PlayerOdds> getOdds(final List<OddsCalcEntity> oddsCalcEntities) {
