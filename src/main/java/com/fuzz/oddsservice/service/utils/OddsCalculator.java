@@ -11,7 +11,7 @@ public class OddsCalculator {
 
     private static final float MAX_ODDS = 10;
 
-     void calculate(final List<PlayerOdds> odds) {
+    void calculate(final List<PlayerOdds> odds) {
          multipleWithRoundDiff(odds);
          for (PlayerOdds odd : odds) {
              final float diff = diff(odd.getTotalPoints(), odds);
@@ -46,26 +46,37 @@ public class OddsCalculator {
     }
 
     private float getOdds(final float diff, final List<PlayerOdds> odds) {
-        final float percentage = getPercentage(diff, getMedian(odds));
-        if (percentage > 100) {
+        return getLadder(getPercentage(diff, getMedian(odds)));
+    }
+
+    List<PlayerOdds> calculateOneOnOne(List<PlayerOdds> playerOdds) {
+        final float playerOnePoints = playerOdds.get(0).getTotalPoints();
+        final float playerTwoPoints = playerOdds.get(1).getTotalPoints();
+        playerOdds.get(0).setOdds(getLadder(playerOnePoints - playerTwoPoints));
+        playerOdds.get(1).setOdds(getLadder(playerTwoPoints - playerOnePoints));
+        return playerOdds;
+    }
+
+    private float getLadder(final float diff) {
+        if (diff > 100) {
             return 1.2F;
-        } else if (percentage > 80) {
+        } else if (diff > 80) {
             return 1.5F;
-        } else if (percentage > 40) {
+        } else if (diff > 40) {
             return 1.8F;
-        } else if (percentage > 0) {
+        } else if (diff > 0) {
             return 2F;
-        } else if (percentage > -30) {
+        } else if (diff > -30) {
             return 2.8F;
-        } else if (percentage > -60) {
+        } else if (diff > -60) {
             return 3.3F;
-        } else if (percentage > -90) {
+        } else if (diff > -90) {
             return 4F;
-        } else if (percentage > -110) {
+        } else if (diff > -110) {
             return 5.5F;
-        } else if (percentage > -140) {
+        } else if (diff > -140) {
             return 7.5F;
-        } else if (percentage > -180) {
+        } else if (diff > -180) {
             return 8F;
         }
         return MAX_ODDS;

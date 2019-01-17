@@ -24,8 +24,7 @@ public class HttpClient {
             }
 
             HttpEntity httpEntity = response.getEntity();
-            final String apiOutput = EntityUtils.toString(httpEntity);
-            return apiOutput;
+            return EntityUtils.toString(httpEntity);
         } catch (IOException exception) {
             System.out.println(exception);
         } finally {

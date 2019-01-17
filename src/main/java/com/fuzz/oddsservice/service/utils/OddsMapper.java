@@ -33,9 +33,28 @@ public class OddsMapper {
         return convertToMap(getOdds(getCommonGames(stats)));
     }
 
+    public Map<String, Float> getOddsOneonOne(final String statsVo,
+                                      final String p1,
+                                      final String p2) throws IOException {
+        final List<PlayerStats> stats = filterStats(entityHelper.mapPlayerStats(statsVo), p1, p2, "", "");
+        stats.sort(Comparator.comparing(PlayerStats::getAverageDiff).reversed());
+        return convertToMap(getOddsByStats(stats));
+    }
+
     private Map<String, Float> convertToMap(final List<PlayerOdds> odds){
        return odds.stream()
                .collect(Collectors.toMap(PlayerOdds::getName, PlayerOdds::getOdds));
+    }
+
+    private List<PlayerOdds> getOddsByStats(final List<PlayerStats> stats) {
+        final List<PlayerOdds> playerOdds = new ArrayList<>();
+        stats.stream().forEach(stat -> {
+            final PlayerOdds odds = new PlayerOdds();
+            odds.setName(stat.getName());
+            odds.setTotalPoints(stat.getAverageDiff());
+            playerOdds.add(odds);
+        });
+        return oddsCalculator.calculateOneOnOne(playerOdds);
     }
 
     private List<PlayerOdds> getOdds(final List<OddsCalcEntity> oddsCalcEntities) {
@@ -60,7 +79,7 @@ public class OddsMapper {
         return gameLink.getPlayerForms().stream().filter(form -> form.getPoints() > gameLink.getPoints()).collect(Collectors.toList()).size() == 0;
     }
 
-    private List<OddsCalcEntity> getCommonGames(final List<PlayerStats> stats) {
+    private List<OddsCalcEntity>    getCommonGames(final List<PlayerStats> stats) {
         final List<OddsCalcEntity> oddsCalcEntities = new ArrayList<>();
         stats.forEach(stat -> {
             final OddsCalcEntity oddsCalcEntity = new OddsCalcEntity();
