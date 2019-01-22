@@ -39,6 +39,6 @@ public class OddsController {
     public Map<String, Float> getOdds(@PathVariable("p1") String p1,
                                       @PathVariable("p2") String p2,
                                       @RequestParam(value = "limit", defaultValue = "50") String limit) throws IOException {
-        return oddsMapper.getOddsOneonOne(new HttpClient().getStats(Integer.parseInt(limit)), p1, p2);
+        return oddsMapper.getOddsOneOnOne(new HttpClient().getStats(Integer.parseInt(limit)), p1, p2);
     }
 }

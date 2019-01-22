@@ -29,11 +29,14 @@ public class OddsMapper {
                                       final String p3,
                                       final String p4) throws IOException {
         final List<PlayerStats> stats = filterStats(entityHelper.mapPlayerStats(statsVo), p1, p2, p3, p4);
+        if (stats.size() == 2) {
+            return getOddsOneOnOne(statsVo, stats.get(0).getName(), stats.get(1).getName());
+        }
         stats.sort(Comparator.comparing(PlayerStats::getAverageDiff).reversed());
         return convertToMap(getOdds(getCommonGames(stats)));
     }
 
-    public Map<String, Float> getOddsOneonOne(final String statsVo,
+    public Map<String, Float> getOddsOneOnOne(final String statsVo,
                                       final String p1,
                                       final String p2) throws IOException {
         final List<PlayerStats> stats = filterStats(entityHelper.mapPlayerStats(statsVo), p1, p2, "", "");
