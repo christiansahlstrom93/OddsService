@@ -10,7 +10,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 
 public class HttpClient {
-    public String getStats(final int limit) {
+    public String getStats(final int limit) throws Exception {
         final DefaultHttpClient httpClient = new DefaultHttpClient();
         try {
             final HttpGet getRequest = new HttpGet("http://fuzzstorage.scripter.tv/stats?limit=" + limit);
@@ -26,10 +26,10 @@ public class HttpClient {
             HttpEntity httpEntity = response.getEntity();
             return EntityUtils.toString(httpEntity);
         } catch (IOException exception) {
-            System.out.println(exception);
+            System.out.println(exception.getMessage());
+            throw new Exception(exception.getMessage());
         } finally {
             httpClient.getConnectionManager().shutdown();
         }
-        return null;
     }
 }

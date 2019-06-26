@@ -30,15 +30,29 @@ public class OddsController {
                                       @PathVariable("p2") String p2,
                                       @PathVariable("p3") String p3,
                                       @PathVariable("p4") String p4,
-                                      @RequestParam(value = "limit", defaultValue = "50") String limit) throws IOException {
-        return oddsMapper.getOdds(new HttpClient().getStats(Integer.parseInt(limit)), p1, p2, p3, p4);
+                                      @RequestParam(value = "limit", defaultValue = "50") String limit) throws Exception {
+        try {
+            return oddsMapper.getOdds(new HttpClient().getStats(Integer.parseInt(limit)), p1, p2, p3, p4);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     @GetMapping("/odds/{p1}/{p2}")
     @ResponseBody
     public Map<String, Float> getOdds(@PathVariable("p1") String p1,
                                       @PathVariable("p2") String p2,
-                                      @RequestParam(value = "limit", defaultValue = "50") String limit) throws IOException {
-        return oddsMapper.getOddsOneOnOne(new HttpClient().getStats(Integer.parseInt(limit)), p1, p2);
+                                      @RequestParam(value = "limit", defaultValue = "50") String limit) throws Exception {
+        try {
+            return oddsMapper.getOddsOneOnOne(new HttpClient().getStats(Integer.parseInt(limit)), p1, p2);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @GetMapping("/test")
+    @ResponseBody
+    public String test() {
+        return "TEST";
     }
 }

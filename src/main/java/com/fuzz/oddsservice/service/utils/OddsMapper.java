@@ -51,7 +51,7 @@ public class OddsMapper {
 
     private List<PlayerOdds> getOddsByStats(final List<PlayerStats> stats) {
         final List<PlayerOdds> playerOdds = new ArrayList<>();
-        stats.stream().forEach(stat -> {
+        stats.forEach(stat -> {
             final PlayerOdds odds = new PlayerOdds();
             odds.setName(stat.getName());
             odds.setTotalPoints(stat.getAverageDiff());
